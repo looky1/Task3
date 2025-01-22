@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .card { border: 1px solid #ccc; padding: 20px; margin: 20px; display: inline-block; width: 300px; }
+        .question { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Flashcards</h1>
+    <div id="flashcards"></div>
+
+    <script>
+        fetch('http://127.0.0.1:5000/flashcards')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('flashcards');
+                data.forEach(card => {
+                    const cardDiv = document.createElement('div');
+                    cardDiv.className = 'card';
+                    cardDiv.innerHTML = `
+                        <div class="question">Q: ${card.question}</div>
+                        <div class="answer" style="display:none;">A: ${card.answer}</div>
+                        <button onclick="this.previousElementSibling.style.display='block'; this.style.display='none';">Show Answer</button>
+                    `;
+                    container.appendChild(cardDiv);
+                });
+            });
+    </script>
+</body>
+</html>
